@@ -1,7 +1,7 @@
-# Tauri + React + Typescript
+# kurobachi
 
-This template should help get you started developing with Tauri, React and Typescript in Vite.
+## n. kurobachi (クローバーち)
+1. kurōbā + (uot)chi, クローバー + ウオッチ: clover watch (although there is ABSOLUTELY no watch involved)
 
-## Recommended IDE Setup
-
-- [VS Code](https://code.visualstudio.com/) + [Tauri](https://marketplace.visualstudio.com/items?itemName=tauri-apps.tauri-vscode) + [rust-analyzer](https://marketplace.visualstudio.com/items?itemName=rust-lang.rust-analyzer)
+## what the DUCK is this
+imagine if completely eradicating procrastination was simple. wouldn't life be easier? as chronic procrastinators (the dev team) we find it INSANELY hard to actually focus and get sh\*t done, especially managing homework, projects, tasks, etc. (don't forget about deadlines *gasp*) so well we decided to make this very badly done app :3 /s 
