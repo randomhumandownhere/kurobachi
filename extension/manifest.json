@@ -1,0 +1,26 @@
+{
+    "name": "Kurobachi",
+    "description": "Track your visits",
+    "version": "1.0",
+    "manifest_version": 3,
+    "action": {
+        "default_popup": "popup.html",
+        "default_icon": "images/kurobachi-logo-128.png"
+    },
+    "permissions": [
+        "tabs",
+        "scripting"
+    ],
+    "background": {
+        "service_worker": "background.js"
+    },
+    "host_permissions": [
+        "<all_urls>"
+    ],
+    "icons": {
+        "16": "images/kurobachi-logo-16.png",
+        "32": "images/kurobachi-logo-32.png",
+        "48": "images/kurobachi-logo-48.png",
+        "128": "images/kurobachi-logo-128.png"
+    }
+}
