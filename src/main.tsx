@@ -37,5 +37,5 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
       </SidebarProvider>
       <App />
     </ThemeProvider>
-  </React.StrictMode>
+  </React.StrictMode>,
 );
