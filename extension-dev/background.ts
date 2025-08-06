@@ -3,7 +3,7 @@ import supabase from './src/supabase_client';
 import { loginWithGoogle } from "./src/oauth";
 
 type Message = {
-  action: 'getSession' | 'signout' | 'oauth',
+  action: 'getSession' | 'signout' | 'oauth' | 'post',
   value?: string
 } | {
   action: 'log',
@@ -26,10 +26,9 @@ async function handleMessage({ action, value }: Message, response: ResponseCallb
     await loginWithGoogle();
     const { data: session } = await supabase.auth.getSession();
     response({ data: session });
-    await browser.storage.local.set({ sessionKey: session });
 
   } else if (action === 'getSession') {
-    const { data: session } = await browser.storage.local.get('sessionKey');
+    const { data: session } = await supabase.auth.getSession();
     response({ data: session });
 
   } else if (action === 'signout') {
@@ -40,6 +39,22 @@ async function handleMessage({ action, value }: Message, response: ResponseCallb
     console.log(value);
     response({ data: 'logged' });
 
+  } else if (action === 'post') {
+    const { data } = await supabase.auth.getSession();
+    const token = data?.session?.access_token;
+    // console.log(token);
+
+    const fetchResponse = await fetch('http://localhost:3000/list', {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    });
+
+    const res = await fetchResponse.json();
+    console.log(res);
+    response({ data: res });
+
   } else {
     response({ data: null, error: 'Unknown action' });
 
@@ -48,7 +63,7 @@ async function handleMessage({ action, value }: Message, response: ResponseCallb
 
 async function track(value: string) {
   if (!value) return;
-  
+
   const { hbTemp } = await browser.storage.local.get('hbTemp');
   hbSave = hbTemp || [];
 
@@ -120,6 +135,8 @@ setInterval(async () => {
 }, 10000);
 
 // call add every minute
+// disabled for the time being
+/*
 async function add() {
   console.log('adding');
   const { data, error } = await supabase
@@ -137,6 +154,7 @@ async function add() {
 }
 
 setTimeout(add, 60000);
+*/
 
 // @ts-ignore
 browser.runtime.onMessage.addListener((msg, sender, response) => {

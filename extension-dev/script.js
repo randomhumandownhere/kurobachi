@@ -23,3 +23,14 @@ function handleSignIn() {
 }
 
 document.getElementById("sign-in-btn").addEventListener("click", handleSignIn);
+document.getElementById("test").addEventListener("click", () => {
+    browser.runtime.sendMessage({ action: "post" }).then(response => {
+        if (response) {
+            browser.runtime.sendMessage({ action: "log", value: `test response: ${JSON.stringify(response)}` });
+        } else {
+            browser.runtime.sendMessage({ action: "log", value: "no response" });
+        }
+    }).catch(error => {
+        browser.runtime.sendMessage({ action: "log", value: `test error: ${error.message}` });
+    });
+});
