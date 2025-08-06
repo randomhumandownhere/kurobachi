@@ -1,28 +1,46 @@
 import browser from "webextension-polyfill";
-import {useState} from "react";
+import React, { useEffect, useState } from "react";
+import { Session } from '@supabase/supabase-js';
 
-const App = () => {
-  const [fact, setFact] = useState('Click the button to fetch a fact!');
-  const [loading, setLoading] = useState(false);
+const App: React.FC = () => {
+  const [session, setSession] = useState<Session | null>(null);
+  /*
+  useEffect(() => {
+    (async () => {
+      const result = await browser.runtime.sendMessage({ action: "getSession" });
+      await browser.runtime.sendMessage({ action: "log", value: JSON.stringify(result) });
+      const currentSession = result?.data?.session ?? null;
+      setSession(currentSession);
 
-  async function handleOnClick() {
-    setLoading(true);
-    const {data} = await browser.runtime.sendMessage({action: 'fetch'});
-    setFact(data);
-    setLoading(false);
+      await browser.runtime.sendMessage({ action: "getSession" }).then(result => {
+        browser.runtime.sendMessage({ action: "log", value: JSON.stringify(result) });
+      });
+
+      if (!currentSession) {
+        const storage = await browser.storage.local.get("oauthInProgress");
+        await browser.runtime.sendMessage({ action: "log", value: `session is null, ${JSON.stringify(storage)}` });
+        if (!storage.oauthInProgress) {
+          await browser.storage.local.set({ oauthInProgress: true });
+          browser.runtime.sendMessage({ action: "oauth" }).then(result => {
+            setSession(result.data.session);
+            browser.runtime.sendMessage({ action: "log", value: JSON.stringify(result) });
+            browser.storage.local.set({ oauthInProgress: false });
+          });
+        }
+      }
+    })();
+  }, []);
+  */
+
+  function renderApp() {
+    return (
+      <>
+        <p></p>
+      </>
+    );
   }
 
-  return (
-    <div className='absolute top-20 left-20'>
-      <div className='flex flex-col gap-4 p-4 shadow-sm bg-gradient-to-r from-purple-500 to-pink-500 w-96 rounded-md'>
-        <h1>Cat Facts!</h1>
-        <button
-          className='px-4 py-2 font-semibold text-sm bg-cyan-500 text-white rounded-full shadow-sm disabled:opacity-75 w-48'
-          disabled={loading} onClick={handleOnClick}>Get a Cat Fact!
-        </button>
-        <p className='text-white'>{fact}</p>
-      </div>
-    </div>
-  )
-}
+  return (<>{renderApp()}</>);
+};
+
 export default App;

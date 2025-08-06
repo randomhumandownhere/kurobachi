@@ -4,9 +4,5 @@ module.exports = {
   content: [
     "./content-script/**/*.{js,ts,jsx,tsx}",
   ],
-  theme: {
-    container: {
-      padding: '2rem',
-    }
-  }
+  theme: {}
 }
