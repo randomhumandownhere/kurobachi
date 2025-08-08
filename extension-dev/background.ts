@@ -75,7 +75,9 @@ async function track(value: string) {
     if (oauthInProgress === false) {
       // prevent multiple windows
       await browser.storage.local.set({ oauthInProgress: true });
-      await loginWithGoogle();
+      await loginWithGoogle().catch(e => {
+        console.log(e);
+      });
     }
 
     const result = await supabase.auth.getSession();
@@ -86,7 +88,7 @@ async function track(value: string) {
 
     const { data: { user: newUser } } = await supabase.auth.getUser();
     if (!newUser) {
-      console.error('failed after login');
+      console.log('failed after login');
       return;
     }
     hbSave.push({
@@ -134,8 +136,7 @@ setInterval(async () => {
   await track(url);
 }, 10000);
 
-// call add every minute
-// disabled for the time being
+// disable if needed :p
 /*
 async function add() {
   console.log('adding');
@@ -159,5 +160,5 @@ setTimeout(add, 60000);
 // @ts-ignore
 browser.runtime.onMessage.addListener((msg, sender, response) => {
   handleMessage(msg, response);
-  return false;
+  return true;
 })

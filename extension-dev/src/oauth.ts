@@ -1,8 +1,9 @@
 import supabase from './supabase_client';
+import browser from "webextension-polyfill";
 
 export async function loginWithGoogle(): Promise<void> {
     const manifest = chrome.runtime.getManifest();
-    
+
     if (!manifest.oauth2) {
         throw new Error('meow');
     }
@@ -28,7 +29,7 @@ export async function loginWithGoogle(): Promise<void> {
                         const url = new URL(redirectedTo || '');
                         const params = new URLSearchParams(url.hash.replace(/^#/, ''));
                         const id_token = params.get('id_token');
-                        
+
                         if (!id_token) {
                             reject(new Error('No id_token found in redirect URL'));
                             return;
@@ -38,12 +39,22 @@ export async function loginWithGoogle(): Promise<void> {
                             provider: 'google',
                             token: id_token,
                         });
-                        
+
                         if (error) {
                             reject(error);
                         } else {
+                            chrome.runtime.getContexts({
+                                contextTypes: ['POPUP']
+                            }, (contexts) => {
+                                if (contexts && contexts.length > 0) {
+                                    browser.runtime.sendMessage({ action: "auth_success" });
+                                }
+                            });
+
                             resolve();
                         }
+
+                        browser.storage.local.set({ oauthInProgress: false });
                     } catch (err) {
                         reject(err);
                     }
