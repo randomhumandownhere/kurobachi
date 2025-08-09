@@ -69,7 +69,7 @@ async function track(value: string) {
 
   const { data: { user } } = await supabase.auth.getUser();
 
-  if (!user) {
+  if (!user) {/*
     console.log('re-sign in');
     const { oauthInProgress } = await browser.storage.local.get('oauthInProgress');
     if (oauthInProgress === false) {
@@ -94,7 +94,8 @@ async function track(value: string) {
     hbSave.push({
       user_id: newUser.id,
       url: value
-    })
+    })*/
+    console.log("user not signed in");
   } else {
     hbSave.push({
       user_id: user.id,
@@ -137,7 +138,6 @@ setInterval(async () => {
 }, 10000);
 
 // disable if needed :p
-/*
 async function add() {
   console.log('adding');
   const { data, error } = await supabase
@@ -145,8 +145,11 @@ async function add() {
     .insert(hbSave)
 
   if (error) {
-    console.error('err:', error);
-    return;
+    const { data: { session } } = await supabase.auth.getSession();
+    if (session == null) {
+      console.log('user not signed in')
+      return;
+    }
   } else {
     hbSave = [];
     await browser.storage.local.set({ hbTemp: [] });
@@ -155,7 +158,6 @@ async function add() {
 }
 
 setTimeout(add, 60000);
-*/
 
 // @ts-ignore
 browser.runtime.onMessage.addListener((msg, sender, response) => {

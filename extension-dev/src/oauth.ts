@@ -48,6 +48,7 @@ export async function loginWithGoogle(): Promise<void> {
                             }, (contexts) => {
                                 if (contexts && contexts.length > 0) {
                                     browser.runtime.sendMessage({ action: "auth_success" });
+                                    console.log('sent auth_sucess')
                                 }
                             });
 

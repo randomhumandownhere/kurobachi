@@ -9,4 +9,4 @@ current added:
 
 to add:
 
-- graphs in popup
+- graphs in popup (done)
