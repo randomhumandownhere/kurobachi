@@ -18,17 +18,18 @@
       },
       {
         "label": "pet",
-        "width": 128,
-        "height": 128,
-        "x": 0,
-        "y": 500,
-        "url": "pet.html",
+        "title": "pet",
+        "url": "pet",
+        "shadow": false,
         "alwaysOnTop": true,
-        "decorations": false,
+        "center": true,
+        "hiddenTitle": true,
         "resizable": false,
-        "skipTaskbar": true,
+        "decorations": false,
         "transparent": true,
-        "shadow": false
+        "fullscreen": false,
+        "visibleOnAllWorkspaces": true,
+        "maximized": true
       }
     ],
     "security": {
